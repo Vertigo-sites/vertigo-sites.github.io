@@ -106,6 +106,14 @@
         }
 
         document.addEventListener("keydown", changeDirection);
+        // Draw initial message
+ctx.fillStyle = "white";
+ctx.font = "20px Arial";
+ctx.textAlign = "center";
+ctx.fillText("Press Space to Start", canvas.width / 2, canvas.height / 2);
+
+createFood();
+// Remove the main(); call from the bottom so it doesn't auto-start!
         createFood();
         main();
     </script>

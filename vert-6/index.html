@@ -3,47 +3,68 @@
 <head>
     <title>Simple Snake Game</title>
     <style>
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #2c3e50; color: white; font-family: Arial, sans-serif; flex-direction: column; }
-        canvas { border: 5px solid #ecf0f1; background: #000; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        h1 { margin-bottom: 10px; }
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            background: #2c3e50; 
+            color: white; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            flex-direction: column; 
+        }
+        canvas { 
+            border: 5px solid #ecf0f1; 
+            background: #000; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.5); 
+        }
+        h1 { margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .instructions { margin-top: 15px; color: #bdc3c7; }
     </style>
 </head>
 <body>
 
-    <h1>Snake Score: <span id="score">0</span></h1>
+    <h1>Score: <span id="score">0</span></h1>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <p class="instructions">Use Arrow Keys to move • Press <strong>SPACE</strong> to Start</p>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
         const scoreElement = document.getElementById("score");
 
+        // Game Settings
         let score = 0;
         let gridSize = 20;
-        let snake = [{x: 160, y: 160}, {x: 140, y: 140}];
+        let gameStarted = false;
+        let gameSpeed = 150; // Higher = Slower (in milliseconds)
+
+        // Snake & Food setup
+        let snake = [{x: 160, y: 160}, {x: 140, y: 160}, {x: 120, y: 160}];
         let dx = gridSize;
         let dy = 0;
         let food = {x: 300, y: 300};
 
-        // Main Game Loop
+        // --- CORE LOGIC ---
+
         function main() {
-    // If game hasn't started, just exit the function
-    if (!gameStarted) return; 
+            if (!gameStarted) return; 
 
-    if (didGameEnd()) {
-        alert("Game Over! Final Score: " + score);
-        location.reload();
-        return;
-    }
+            if (didGameEnd()) {
+                alert("Game Over! Final Score: " + score);
+                location.reload(); // Restarts the page
+                return;
+            }
 
-    setTimeout(function onTick() {
-        clearCanvas();
-        drawFood();
-        advanceSnake();
-        drawSnake();
-        main();
-    }, 150); // Your chosen speed
-}
+            setTimeout(function onTick() {
+                clearCanvas();
+                drawFood();
+                advanceSnake();
+                drawSnake();
+                main(); // Repeat the loop
+            }, gameSpeed);
+        }
 
         function clearCanvas() {
             ctx.fillStyle = "black";
@@ -53,7 +74,9 @@
         function drawSnake() {
             snake.forEach((part, index) => {
                 ctx.fillStyle = (index === 0) ? "#2ecc71" : "#27ae60";
-                ctx.fillRect(part.x, part.y, gridSize - 2, gridSize - 2);
+                ctx.strokeStyle = "#000";
+                ctx.fillRect(part.x, part.y, gridSize, gridSize);
+                ctx.strokeRect(part.x, part.y, gridSize, gridSize);
             });
         }
 
@@ -71,9 +94,11 @@
         }
 
         function didGameEnd() {
+            // Hit self
             for (let i = 4; i < snake.length; i++) {
                 if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
             }
+            // Hit walls
             const hitLeftWall = snake[0].x < 0;
             const hitRightWall = snake[0].x > canvas.width - gridSize;
             const hitTopWall = snake[0].y < 0;
@@ -84,16 +109,36 @@
         function createFood() {
             food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
             food.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
+            
+            // Make sure food doesn't spawn on snake body
+            snake.forEach(function isFoodOnSnake(part) {
+                if (part.x == food.x && part.y == food.y) createFood();
+            });
         }
 
         function drawFood() {
             ctx.fillStyle = "#e74c3c";
-            ctx.fillRect(food.x, food.y, gridSize - 2, gridSize - 2);
+            ctx.fillRect(food.x, food.y, gridSize, gridSize);
         }
 
-        function changeDirection(event) {
-            const LEFT_KEY = 37; const RIGHT_KEY = 39; const UP_KEY = 38; const DOWN_KEY = 40;
+        // --- CONTROLS ---
+
+        function handleInput(event) {
             const keyPressed = event.keyCode;
+            const SPACE_KEY = 32;
+            const LEFT_KEY = 37;
+            const UP_KEY = 38;
+            const RIGHT_KEY = 39;
+            const DOWN_KEY = 40;
+
+            // Start Game logic
+            if (keyPressed === SPACE_KEY && !gameStarted) {
+                gameStarted = true;
+                main();
+                return;
+            }
+
+            // Direction logic (prevents 180-degree turns)
             const goingUp = dy === -gridSize;
             const goingDown = dy === gridSize;
             const goingRight = dx === gridSize;
@@ -105,17 +150,26 @@
             if (keyPressed === DOWN_KEY && !goingUp) { dx = 0; dy = gridSize; }
         }
 
-        document.addEventListener("keydown", changeDirection);
-        // Draw initial message
-ctx.fillStyle = "white";
-ctx.font = "20px Arial";
-ctx.textAlign = "center";
-ctx.fillText("Press Space to Start", canvas.width / 2, canvas.height / 2);
+        // --- INITIAL STATE ---
 
-createFood();
-// Remove the main(); call from the bottom so it doesn't auto-start!
+        function drawStartScreen() {
+            clearCanvas();
+            ctx.fillStyle = "white";
+            ctx.font = "24px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("READY?", canvas.width / 2, canvas.height / 2 - 10);
+            ctx.font = "16px Arial";
+            ctx.fillText("Press SPACE to Start", canvas.width / 2, canvas.height / 2 + 30);
+            
+            // Draw a preview of the snake and food
+            drawSnake();
+            drawFood();
+        }
+
+        document.addEventListener("keydown", handleInput);
         createFood();
-        main();
+        drawStartScreen();
+
     </script>
 </body>
 </html>

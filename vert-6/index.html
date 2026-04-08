@@ -26,21 +26,24 @@
         let food = {x: 300, y: 300};
 
         // Main Game Loop
-        function main() {
-            if (didGameEnd()) {
-                alert("Game Over! Final Score: " + score);
-                location.reload();
-                return;
-            }
+function main() {
+    // If game hasn't started, just exit the function
+    if (!gameStarted) return; 
 
-            setTimeout(function onTick() {
-                clearCanvas();
-                drawFood();
-                advanceSnake();
-                drawSnake();
-                main();
-            }, 180);
-        }
+    if (didGameEnd()) {
+        alert("Game Over! Final Score: " + score);
+        location.reload();
+        return;
+    }
+
+    setTimeout(function onTick() {
+        clearCanvas();
+        drawFood();
+        advanceSnake();
+        drawSnake();
+        main();
+    }, 150); // Your chosen speed
+}
 
         function clearCanvas() {
             ctx.fillStyle = "black";

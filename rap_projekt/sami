@@ -1,0 +1,46 @@
+<html>
+
+<head>
+<title>
+Rap Projekt
+</title>
+</head>
+
+<body bgcolor=6699cc>
+<div align=center>
+
+<h1>
+Muhi - Rap Projekt
+</h1>
+
+Original rap songs produced in Vertigo
+<br>
+
+
+
+
+<h2>
+untertatverdacht
+</h2>
+<audio src="rap1.mp3" controls></audio>
+<p>
+<img src=ferdacht.png width=500>
+
+
+<h2>
+Fang von neun an
+</h2>
+<audio src="rap3.mp3" controls></audio>
+<p>
+<img src=fang.png>
+
+<br>
+<hr>
+
+<small>
+&copy; Muhi 2026
+</small>
+
+</div>
+<body>
+</html>

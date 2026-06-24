@@ -1,119 +1,1559 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Cyber Security</title>
-<link href="style.css" rel="stylesheet" type="text/css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberSec Hub — Security Resources & Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #030a0f;
+    --bg2: #071018;
+    --bg3: #0c1a28;
+    --accent: #00e5a0;
+    --accent2: #00b8ff;
+    --accent3: #ff4655;
+    --warn: #ffb800;
+    --text: #c8d8e8;
+    --text2: #7a9ab0;
+    --border: rgba(0,229,160,0.18);
+    --border2: rgba(0,184,255,0.15);
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Rajdhani', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--accent2); }
+
+  /* ── SCANLINE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(3,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 17px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo .bracket { color: var(--text2); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--head);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent3);
+    border: 1px solid var(--accent3);
+    padding: 3px 8px;
+    letter-spacing: 0.05em;
+    animation: blink 2s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 70%);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 5px 16px;
+    margin-bottom: 2rem;
+    display: inline-block;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: var(--head);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #fff;
+    animation: fadeUp 0.7s 0.1s ease both;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero p {
+    max-width: 560px;
+    color: var(--text2);
+    font-size: 16px;
+    line-height: 1.7;
+    animation: fadeUp 0.7s 0.2s ease both;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(24px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .btn {
+    font-family: var(--head);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border: 1px solid var(--accent);
+    color: var(--bg);
+    background: var(--accent);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn:hover { background: var(--accent2); border-color: var(--accent2); color: var(--bg); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--accent);
+  }
+  .btn-outline:hover { background: rgba(0,229,160,0.08); color: var(--accent); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    overflow: hidden;
+  }
+
+  .stat-item {
+    flex: 1;
+    max-width: 220px;
+    padding: 1.4rem 1rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: var(--head);
+  }
+
+  /* ── SECTION BASICS ── */
+  section { padding: 5rem 2rem; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: var(--head);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  .section-title span { color: var(--accent); }
+
+  .section-line {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 1rem auto 0;
+  }
+
+  /* ── VIDEO GRID ── */
+  .video-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .video-featured {
+    grid-column: 1 / -1;
+    background: var(--bg2);
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .video-featured iframe {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  .video-info { flex: 1; }
+
+  .video-cat {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .video-cat::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .video-info h3 {
+    font-family: var(--head);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .video-info p { color: var(--text2); font-size: 14px; margin-bottom: 1.2rem; }
+
+  .video-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    border: 1px solid rgba(0,184,255,0.25);
+    padding: 3px 10px;
+    letter-spacing: 0.05em;
+    background: rgba(0,184,255,0.05);
+  }
+
+  .video-card {
+    background: var(--bg2);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+  .video-card:hover { background: var(--bg3); }
+
+  .video-thumb {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* CSS-designed thumbnails — never break, always look good */
+  .vt-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.4s;
+  }
+  .video-card:hover .vt-bg { transform: scale(1.03); }
+
+  .vt-bg.green  { background: linear-gradient(135deg, #021a0e 0%, #0a2d1c 50%, #041508 100%); border: 1px solid rgba(0,229,160,.15); }
+  .vt-bg.blue   { background: linear-gradient(135deg, #021220 0%, #082038 50%, #030c18 100%); border: 1px solid rgba(0,184,255,.15); }
+  .vt-bg.red    { background: linear-gradient(135deg, #1a0204 0%, #2d080a 50%, #150204 100%); border: 1px solid rgba(255,70,85,.15); }
+  .vt-bg.amber  { background: linear-gradient(135deg, #1a1002 0%, #2d1e04 50%, #150d01 100%); border: 1px solid rgba(255,179,0,.15); }
+  .vt-bg.purple { background: linear-gradient(135deg, #0e0420 0%, #1c0a38 50%, #090215 100%); border: 1px solid rgba(124,58,237,.2); }
+  .vt-bg.cyan   { background: linear-gradient(135deg, #021520 0%, #042838 50%, #011018 100%); border: 1px solid rgba(0,212,255,.15); }
+
+  .vt-icon {
+    font-family: var(--mono);
+    font-size: 2.8rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 16px currentColor);
+  }
+  .vt-bg.green  .vt-icon { color: var(--accent);  }
+  .vt-bg.blue   .vt-icon { color: var(--accent2); }
+  .vt-bg.red    .vt-icon { color: var(--accent3); }
+  .vt-bg.amber  .vt-icon { color: var(--warn);    }
+  .vt-bg.purple .vt-icon { color: #a78bfa;        }
+  .vt-bg.cyan   .vt-icon { color: #22d3ee;        }
+
+  .vt-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    opacity: .5;
+  }
+  .vt-bg.green  .vt-label { color: var(--accent);  }
+  .vt-bg.blue   .vt-label { color: var(--accent2); }
+  .vt-bg.red    .vt-label { color: var(--accent3); }
+  .vt-bg.amber  .vt-label { color: var(--warn);    }
+  .vt-bg.purple .vt-label { color: #a78bfa;        }
+  .vt-bg.cyan   .vt-label { color: #22d3ee;        }
+
+  .vt-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+
+  .video-thumb .play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.45);
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 2;
+  }
+  .video-card:hover .play-btn { opacity: 1; }
+  .play-btn svg { width: 52px; height: 52px; fill: #fff; filter: drop-shadow(0 0 10px rgba(0,229,160,.8)); }
+
+  .video-card h4 {
+    font-family: var(--head);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.4rem;
+    line-height: 1.35;
+  }
+  .video-card p { font-size: 13px; color: var(--text2); }
+
+  /* ── LINKS / RESOURCES ── */
+  .links-bg { background: var(--bg2); }
+
+  .links-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .link-category {
+    background: var(--bg);
+    padding: 2rem;
+  }
+
+  .link-category-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .link-category-head .cat-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,229,160,0.1);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .link-category-head .cat-icon svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 2; }
+
+  .link-category-head h3 {
+    font-family: var(--head);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+  }
+
+  .link-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+
+  .link-item a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid transparent;
+    color: var(--text);
+    font-size: 13px;
+    transition: all 0.15s;
+    font-family: var(--body);
+  }
+  .link-item a:hover {
+    background: rgba(0,229,160,0.07);
+    border-color: var(--border);
+    color: var(--accent);
+    padding-left: 18px;
+  }
+
+  .link-item a .link-arrow {
+    color: var(--accent);
+    opacity: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    transition: opacity 0.15s;
+  }
+  .link-item a:hover .link-arrow { opacity: 1; }
+
+  .link-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 6px;
+    letter-spacing: 0.05em;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
+  .badge-free { background: rgba(0,229,160,0.12); color: var(--accent); }
+  .badge-paid { background: rgba(255,184,0,0.12); color: var(--warn); }
+  .badge-live { background: rgba(255,70,85,0.15); color: var(--accent3); animation: blink 2s step-end infinite; }
+
+  /* ── TOOLS ── */
+  .tools-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .tool-card {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 1.5rem;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tool-card:hover { border-color: rgba(0,229,160,0.4); background: var(--bg3); }
+  .tool-card:hover::before { opacity: 1; }
+
+  .tool-icon {
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .tool-card h4 {
+    font-family: var(--head);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+
+  .tool-card p { font-size: 12.5px; color: var(--text2); margin-bottom: 1rem; line-height: 1.55; }
+
+  .tool-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent2);
+    border-bottom: 1px solid rgba(0,184,255,0.3);
+    padding-bottom: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .tool-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── NEWS TICKER ── */
+  .ticker-wrap {
+    background: var(--accent3);
+    overflow: hidden;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--bg);
+    color: var(--accent3);
+    padding: 3px 12px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 1rem;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 3rem;
+    animation: ticker 35s linear infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-inner span {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--bg);
+    letter-spacing: 0.05em;
+  }
+
+  .ticker-inner span::before {
+    content: '◆';
+    margin-right: 8px;
+    opacity: 0.6;
+  }
+
+  /* ── CERT SECTION ── */
+  .cert-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .cert-card {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 2rem;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .cert-card:hover { border-color: rgba(0,229,160,0.35); }
+
+  .cert-level {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding: 3px 10px;
+    display: inline-block;
+    border: 1px solid;
+  }
+  .level-beginner { color: var(--accent); border-color: var(--accent); background: rgba(0,229,160,0.06); }
+  .level-intermediate { color: var(--accent2); border-color: var(--accent2); background: rgba(0,184,255,0.06); }
+  .level-advanced { color: var(--accent3); border-color: var(--accent3); background: rgba(255,70,85,0.06); }
+
+  .cert-card h3 {
+    font-family: var(--head);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .cert-card p { font-size: 13px; color: var(--text2); margin-bottom: 1.5rem; }
+
+  .cert-details { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.5rem; }
+
+  .cert-detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .cert-detail::before { content: '›'; color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+
+  .footer-links a {
+    font-family: var(--head);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
 </head>
-<body bgcolor=ffff00>
-<div align=center>
+<body>
 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="bracket">[</span>CYBERSEC_HUB<span class="bracket">]</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#areas">Areas</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#quiz" style="color: var(--accent);">Quiz</a></li>
+    <li><a href="#info">Info</a></li>
+  </ul>
+  <div class="nav-badge">● LIVE</div>
+</nav>
 
-
-
-<h1>
-Cyber security
-</h1> 
-<img src=front.jpg>
-<p>
-</p>
-<table border=0 cellpadding=10 width=1000>
-<tr>
- <td>
-    <div align=center>
-    Video
-    <br>
-  <a href=https://www.youtube.com/watch?v=4yKsIdr_PNU>
-<img src=button1.png width=50 border=0>
-  </a>
-      <div>
-</td>
-  
-  <td>
-    <div align=center>
-    Video
-    <br>
-  <a href=https://www.youtube.com/watch?v=4yKsIdr_PNU>
-<img src=button2.png width=50 border=0>
-  </a>
-      <div>
-</td>
-  <td>
-    <div align=center>
-    Video
-    <br>
-  <a href=https://www.youtube.com/watch?v=4yKsIdr_PNU>
-<img src=button3.png width=50 border=0>
-  </a>
-      <div>
-</td>
-  <td>
-    <div align=center>
-    Video
-    <br>
-  <a href=https://www.youtube.com/watch?v=4yKsIdr_PNU>
-<img src=button4.png width=50 border=0>
-  </a>
-      <div>
-</td>
-   <td>
-    <div align=center>
-    Video
-    <br>
-  <a href=https://www.youtube.com/watch?v=4yKsIdr_PNU>
-<img src=button5.png width=50 border=0>
-  </a>
-      <div>
-</td>
-   <td>
-    <div align=center>
-    Video
-    <br>
-  <a href=https://www.youtube.com/watch?v=4yKsIdr_PNU>
-<img src=button6.png width=50 border=0>
-  </a>
-      <div>
-</td>
-</tr>
-</table>
-
-<br>
-<hr>
-
-
-<br><br><br>
-<table border=0 cellpadding=10 width=1000>
-<tr>
-<td>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/inWWhr5tnEA?si=_GFJ0qLwKQPgqUl7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-<br><br>
-</td>
-<td width=400>
-this will be the description or infotmation about the video
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td>
-</td>
-</tr>
-</table>
-
-<hr>
-  <br>
-  <a href=https://www.youtube.com/watch?v=4yKsIdr_PNU>
-  Click Here
-  </a>
-  <p>
-  Meris 2026
-</p>
-
-
-
-
-
-
-
-
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-label">THREAT INTEL</div>
+  <div class="ticker-inner">
+    <span>CISA Alert: Critical infrastructure vulnerability patched</span>
+    <span>New ransomware variant targeting healthcare sectors</span>
+    <span>Zero-day discovered in popular VPN software</span>
+    <span>FBI issues advisory on social engineering campaigns</span>
+    <span>CVE-2025-1337: Remote code execution in widely used library</span>
+    <span>CISA Alert: Critical infrastructure vulnerability patched</span>
+    <span>New ransomware variant targeting healthcare sectors</span>
+    <span>Zero-day discovered in popular VPN software</span>
+    <span>FBI issues advisory on social engineering campaigns</span>
+    <span>CVE-2025-1337: Remote code execution in widely used library</span>
+  </div>
 </div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">// Security Knowledge Hub //</div>
+  <h1>Master <span>Cyber</span><br>Security</h1>
+  <p>Curated videos, tools, certifications, and resources for ethical hackers, pentesters, and security professionals.</p>
+  <div class="hero-ctas">
+    <a href="#videos" class="btn">Explore Videos</a>
+    <a href="#resources" class="btn btn-outline">Browse Resources</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar reveal">
+  <div class="stat-item">
+    <span class="stat-num">3.5M+</span>
+    <span class="stat-label">Cybersecurity Jobs by 2025</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">$9.4T</span>
+    <span class="stat-label">Global Cybercrime Cost 2024</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">97s</span>
+    <span class="stat-label">Average Ransomware Attack Speed</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">82%</span>
+    <span class="stat-label">Breaches Involve Human Element</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">$4.9M</span>
+    <span class="stat-label">Average Data Breach Cost</span>
+  </div>
+</div>
+
+<!-- KEY AREAS -->
+<section id="areas" style="background: var(--bg); padding: 4rem 2rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">// 00 — CORE AREAS</span>
+    <h2 class="section-title">Key Areas of <span>Cybersecurity</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;" class="reveal">
+
+    <div style="background: var(--bg2); border: 1px solid var(--border); padding: 2rem; text-align: center; transition: border-color 0.2s, background 0.2s; cursor: default;" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'; this.style.background='var(--bg3)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg2)'">
+      <img src="button1.png" alt="Security" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 1.2rem; filter: drop-shadow(0 0 12px rgba(0,229,160,0.4));">
+      <h4 style="font-family: var(--head); font-size: 1.05rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Network Security</h4>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.6;">Protecting infrastructure, firewalls, intrusion detection and securing data in transit.</p>
+    </div>
+
+    <div style="background: var(--bg2); border: 1px solid var(--border); padding: 2rem; text-align: center; transition: border-color 0.2s, background 0.2s; cursor: default;" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'; this.style.background='var(--bg3)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg2)'">
+      <img src="button2.png" alt="Firewall" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 1.2rem; filter: drop-shadow(0 0 12px rgba(0,229,160,0.4));">
+      <h4 style="font-family: var(--head); font-size: 1.05rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Endpoint Defence</h4>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.6;">Securing devices and systems from malware, ransomware and unauthorized access.</p>
+    </div>
+
+    <div style="background: var(--bg2); border: 1px solid var(--border); padding: 2rem; text-align: center; transition: border-color 0.2s, background 0.2s; cursor: default;" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'; this.style.background='var(--bg3)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg2)'">
+      <img src="button3.png" alt="Authentication" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 1.2rem; filter: drop-shadow(0 0 12px rgba(0,229,160,0.4));">
+      <h4 style="font-family: var(--head); font-size: 1.05rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Authentication</h4>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.6;">Identity verification, biometrics, MFA and access control mechanisms.</p>
+    </div>
+
+    <div style="background: var(--bg2); border: 1px solid var(--border); padding: 2rem; text-align: center; transition: border-color 0.2s, background 0.2s; cursor: default;" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'; this.style.background='var(--bg3)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg2)'">
+      <img src="button4.png" alt="Encryption" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 1.2rem; filter: drop-shadow(0 0 12px rgba(0,229,160,0.4));">
+      <h4 style="font-family: var(--head); font-size: 1.05rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Encryption</h4>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.6;">Cryptography, SSL/TLS, hashing and protecting data at rest and in transit.</p>
+    </div>
+
+    <div style="background: var(--bg2); border: 1px solid var(--border); padding: 2rem; text-align: center; transition: border-color 0.2s, background 0.2s; cursor: default;" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'; this.style.background='var(--bg3)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg2)'">
+      <img src="button5.png" alt="Penetration Testing" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 1.2rem; filter: drop-shadow(0 0 12px rgba(0,229,160,0.4));">
+      <h4 style="font-family: var(--head); font-size: 1.05rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Penetration Testing</h4>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.6;">Ethical hacking, vulnerability scanning and simulated attacks to find weaknesses.</p>
+    </div>
+
+    <div style="background: var(--bg2); border: 1px solid var(--border); padding: 2rem; text-align: center; transition: border-color 0.2s, background 0.2s; cursor: default;" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'; this.style.background='var(--bg3)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg2)'">
+      <img src="button6.png" alt="Server Security" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 1.2rem; filter: drop-shadow(0 0 12px rgba(0,229,160,0.4));">
+      <h4 style="font-family: var(--head); font-size: 1.05rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem;">Server Security</h4>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.6;">Hardening servers, patch management and protecting cloud infrastructure.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-header reveal">
+    <span class="section-tag">// 01 — TRAINING VIDEOS</span>
+    <h2 class="section-title">Learn from the <span>Best</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="video-grid reveal">
+    <!-- Featured — no iframe, just a reliable clickable card -->
+    <div class="video-featured">
+      <a href="https://www.youtube.com/watch?v=qwA6MmbeGNo" target="_blank" rel="noopener" style="display:block; position:relative; flex-shrink:0; width:560px; max-width:100%;">
+        <img
+          src="https://img.youtube.com/vi/qwA6MmbeGNo/maxresdefault.jpg"
+          alt="Cybersecurity Full Course"
+          style="width:100%; display:block; border:1px solid var(--border); filter:brightness(.88);"
+          onerror="this.src='https://img.youtube.com/vi/qwA6MmbeGNo/hqdefault.jpg'">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);transition:background .2s;">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="var(--accent)" style="filter:drop-shadow(0 0 12px rgba(0,229,160,.6))"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div style="position:absolute;top:10px;left:10px;background:var(--accent3);font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#fff;padding:3px 9px;">▶ YOUTUBE</div>
+      </a>
+      <div class="video-info">
+        <div class="video-cat">FEATURED</div>
+        <h3>Cybersecurity Full Course for Beginners — 2024 Edition</h3>
+        <p>One of the most complete free cybersecurity courses available. Walks through the entire field from scratch: networking fundamentals, how attacks happen, how defenders respond, and what the job market actually looks like. No experience needed. This is the video to start with if you're brand new and don't know where to begin.</p>
+        <div class="video-tags">
+          <span class="tag">Beginner Friendly</span>
+          <span class="tag">Full Course</span>
+          <span class="tag">Networking</span>
+          <span class="tag">Threats & Defence</span>
+          <span class="tag">Free</span>
+        </div>
+        <a href="https://www.youtube.com/watch?v=qwA6MmbeGNo" class="btn" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+      </div>
+    </div>
+
+    <!-- Card 1 — Ethical Hacking Intro -->
+    <div class="video-card">
+      <a href="https://www.youtube.com/results?search_query=networkchuck+ethical+hacking+beginners" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="video-thumb">
+          <div class="vt-bg green">
+            <div class="vt-grid-lines"></div>
+            <div class="vt-icon">&gt;_</div>
+            <div class="vt-label">Ethical Hacking</div>
+          </div>
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </a>
+      <div class="video-cat">ETHICAL HACKING</div>
+      <h4>Ethical Hacking for Beginners — NetworkChuck</h4>
+      <p>NetworkChuck's breakdown of how he got into hacking and the exact steps he'd take today starting from scratch. Real talk about what the learning path looks like, no sugarcoating.</p>
+      <br>
+      <a href="https://www.youtube.com/@NetworkChuck" class="tag" target="_blank" rel="noopener">▶ NetworkChuck Channel</a>
+    </div>
+
+    <!-- Card 2 — SQL Injection (Computerphile) -->
+    <div class="video-card">
+      <a href="https://www.youtube.com/results?search_query=computerphile+sql+injection" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="video-thumb">
+          <div class="vt-bg blue">
+            <div class="vt-grid-lines"></div>
+            <div class="vt-icon">&#x1F5C4;</div>
+            <div class="vt-label">Web Security</div>
+          </div>
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </a>
+      <div class="video-cat">WEB SECURITY</div>
+      <h4>SQL Injection Explained — Computerphile</h4>
+      <p>The University of Nottingham's Computerphile channel breaks down exactly how SQL injection works at the database level — why the attack succeeds, what vulnerable code looks like, and how to actually prevent it.</p>
+      <br>
+      <a href="https://www.youtube.com/results?search_query=computerphile+sql+injection" class="tag" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+
+    <!-- Card 3 — Password Cracking -->
+    <div class="video-card">
+      <a href="https://www.youtube.com/results?search_query=computerphile+password+cracking+hashing" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="video-thumb">
+          <div class="vt-bg amber">
+            <div class="vt-grid-lines"></div>
+            <div class="vt-icon">&#128274;</div>
+            <div class="vt-label">Passwords & Hashing</div>
+          </div>
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </a>
+      <div class="video-cat">PASSWORDS & HASHING</div>
+      <h4>How Password Cracking Works — Hashing, Salting & Attacks</h4>
+      <p>Why passwords are stored as hashes, how rainbow tables destroy unsalted hashes, and how a GPU-powered Hashcat session cracks thousands of passwords per second. Explains what "good" password storage actually requires.</p>
+      <br>
+      <a href="https://www.youtube.com/results?search_query=computerphile+password+cracking+hashing" class="tag" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+
+    <!-- Card 4 — OSINT -->
+    <div class="video-card">
+      <a href="https://www.youtube.com/results?search_query=osint+techniques+open+source+intelligence+hacking" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="video-thumb">
+          <div class="vt-bg purple">
+            <div class="vt-grid-lines"></div>
+            <div class="vt-icon">&#128269;</div>
+            <div class="vt-label">OSINT</div>
+          </div>
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </a>
+      <div class="video-cat">OSINT</div>
+      <h4>OSINT Techniques — How Hackers Find Info on Anyone</h4>
+      <p>Open-source intelligence: how red teamers and investigators use public records, DNS data, social media, breach dumps, and tools like Maltego and Shodan to build complete target profiles before touching a single exploit.</p>
+      <br>
+      <a href="https://www.youtube.com/results?search_query=osint+open+source+intelligence+hacking+2024" class="tag" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+
+    <!-- Card 5 — NEW: Malware Analysis -->
+    <div class="video-card">
+      <a href="https://www.youtube.com/results?search_query=malware+analysis+beginners+john+hammond" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="video-thumb">
+          <div class="vt-bg red">
+            <div class="vt-grid-lines"></div>
+            <div class="vt-icon">&#9762;</div>
+            <div class="vt-label">Malware Analysis</div>
+          </div>
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </a>
+      <div class="video-cat">MALWARE ANALYSIS</div>
+      <h4>Malware Analysis for Beginners — Static & Dynamic</h4>
+      <p>How analysts examine malicious files without getting infected. Covers static analysis (reading the code without running it using Ghidra and strings) and dynamic analysis (running malware in a sandbox and watching what it does in real time).</p>
+      <br>
+      <a href="https://www.youtube.com/results?search_query=malware+analysis+beginners+john+hammond" class="tag" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+
+    <!-- Card 6 — NEW: Blue Team / SOC -->
+    <div class="video-card">
+      <a href="https://www.youtube.com/results?search_query=soc+analyst+day+in+life+blue+team+siem" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="video-thumb">
+          <div class="vt-bg cyan">
+            <div class="vt-grid-lines"></div>
+            <div class="vt-icon">&#128737;</div>
+            <div class="vt-label">Blue Team / SOC</div>
+          </div>
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </a>
+      <div class="video-cat">BLUE TEAM</div>
+      <h4>SOC Analyst Day in the Life — SIEM, Alerts & Incident Response</h4>
+      <p>What working in a Security Operations Center actually looks like: triaging alerts, investigating suspicious activity in a SIEM, deciding what's a real threat vs a false alarm, and escalating incidents. Where most actual security jobs are.</p>
+      <br>
+      <a href="https://www.youtube.com/results?search_query=soc+analyst+day+life+siem+incident+response" class="tag" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources" class="links-bg">
+  <div class="section-header reveal">
+    <span class="section-tag">// 02 — RESOURCES</span>
+    <h2 class="section-title">Essential <span>Links</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="links-grid reveal">
+
+    <!-- Learning Platforms -->
+    <div class="link-category">
+      <div class="link-category-head">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Learning Platforms</h3>
+      </div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://hackthebox.com" target="_blank" rel="noopener">Hack The Box <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://portswigger.net/web-security" target="_blank" rel="noopener">PortSwigger Web Academy <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://picoctf.org" target="_blank" rel="noopener">PicoCTF <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://cybrary.it" target="_blank" rel="noopener">Cybrary <span><span class="link-badge badge-paid">PRO</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://pentesterlab.com" target="_blank" rel="noopener">PentesterLab <span><span class="link-badge badge-paid">PRO</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://overthewire.org/wargames/" target="_blank" rel="noopener">OverTheWire Wargames <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://rootme.org" target="_blank" rel="noopener">Root-Me <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+      </ul>
+    </div>
+
+    <!-- Tools & References -->
+    <div class="link-category">
+      <div class="link-category-head">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>Tools & References</h3>
+      </div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://gtfobins.github.io" target="_blank" rel="noopener">GTFOBins <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://lolbas-project.github.io" target="_blank" rel="noopener">LOLBAS Project <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://attack.mitre.org" target="_blank" rel="noopener">MITRE ATT&CK Framework <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://cve.mitre.org" target="_blank" rel="noopener">CVE Database <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://exploit-db.com" target="_blank" rel="noopener">Exploit-DB <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://shodan.io" target="_blank" rel="noopener">Shodan — IoT Search Engine <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://virustotal.com" target="_blank" rel="noopener">VirusTotal <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://any.run" target="_blank" rel="noopener">ANY.RUN Sandbox <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+      </ul>
+    </div>
+
+    <!-- News & Intelligence -->
+    <div class="link-category">
+      <div class="link-category-head">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+        </div>
+        <h3>News & Threat Intel</h3>
+      </div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://krebsonsecurity.com" target="_blank" rel="noopener">Krebs on Security <span><span class="link-badge badge-free">BLOG</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://thehackernews.com" target="_blank" rel="noopener">The Hacker News <span><span class="link-badge badge-live">LIVE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://threatpost.com" target="_blank" rel="noopener">Threatpost <span><span class="link-badge badge-live">LIVE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://darkreading.com" target="_blank" rel="noopener">Dark Reading <span><span class="link-badge badge-live">LIVE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://cisa.gov/news-events/cybersecurity-advisories" target="_blank" rel="noopener">CISA Advisories <span><span class="link-badge badge-live">LIVE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://nvd.nist.gov" target="_blank" rel="noopener">NVD — NIST Vuln Database <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://reddit.com/r/netsec" target="_blank" rel="noopener">r/netsec <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+        <li class="link-item"><a href="https://reddit.com/r/cybersecurity" target="_blank" rel="noopener">r/cybersecurity <span><span class="link-badge badge-free">FREE</span><span class="link-arrow">→</span></span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-header reveal">
+    <span class="section-tag">// 03 — ESSENTIAL TOOLS</span>
+    <h2 class="section-title">Industry <span>Toolkit</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tools-grid reveal">
+    <div class="tool-card">
+      <span class="tool-icon">&gt;_</span>
+      <h4>Nmap</h4>
+      <p>Network scanner used for host discovery, port scanning, and service enumeration. The standard for recon.</p>
+      <a href="https://nmap.org" class="tool-link" target="_blank" rel="noopener">nmap.org →</a>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">[+]</span>
+      <h4>Metasploit</h4>
+      <p>World's most used penetration testing framework. Automate exploit development and payload delivery.</p>
+      <a href="https://metasploit.com" class="tool-link" target="_blank" rel="noopener">metasploit.com →</a>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">~~~</span>
+      <h4>Burp Suite</h4>
+      <p>Industry-standard web application security scanner and proxy for intercepting and modifying HTTP traffic.</p>
+      <a href="https://portswigger.net/burp" class="tool-link" target="_blank" rel="noopener">portswigger.net →</a>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">:::</span>
+      <h4>Wireshark</h4>
+      <p>Graphical packet analyser for deep inspection of network traffic. Essential for blue and red teamers.</p>
+      <a href="https://wireshark.org" class="tool-link" target="_blank" rel="noopener">wireshark.org →</a>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">###</span>
+      <h4>Hashcat</h4>
+      <p>Advanced CPU-based password recovery utility supporting over 300 hashing algorithms and attack modes.</p>
+      <a href="https://hashcat.net" class="tool-link" target="_blank" rel="noopener">hashcat.net →</a>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">///</span>
+      <h4>Ghidra</h4>
+      <p>NSA's open-source reverse engineering framework for analysing malware and compiled binaries.</p>
+      <a href="https://ghidra-sre.org" class="tool-link" target="_blank" rel="noopener">ghidra-sre.org →</a>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">***</span>
+      <h4>Aircrack-ng</h4>
+      <p>Complete suite of tools to assess Wi-Fi network security including capturing, cracking, and attacking.</p>
+      <a href="https://aircrack-ng.org" class="tool-link" target="_blank" rel="noopener">aircrack-ng.org →</a>
+    </div>
+    <div class="tool-card">
+      <span class="tool-icon">@@@</span>
+      <h4>SQLMap</h4>
+      <p>Automated tool that detects and exploits SQL injection flaws in web applications and databases.</p>
+      <a href="https://sqlmap.org" class="tool-link" target="_blank" rel="noopener">sqlmap.org →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs" style="background: var(--bg2);">
+  <div class="section-header reveal">
+    <span class="section-tag">// 04 — CERTIFICATIONS</span>
+    <h2 class="section-title">Certify Your <span>Skills</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="cert-grid reveal">
+    <div class="cert-card">
+      <div class="cert-level level-beginner">BEGINNER</div>
+      <h3>CompTIA Security+</h3>
+      <p>The foundational security certification recognized globally. Perfect starting point for any cybersecurity career.</p>
+      <div class="cert-details">
+        <span class="cert-detail">90 multiple-choice questions</span>
+        <span class="cert-detail">90 minutes exam time</span>
+        <span class="cert-detail">Vendor-neutral certification</span>
+        <span class="cert-detail">DoD 8570 approved</span>
+      </div>
+      <a href="https://comptia.org/certifications/security" class="btn btn-outline" target="_blank" rel="noopener" style="font-size:12px; padding:8px 18px;">Learn More</a>
+    </div>
+    <div class="cert-card">
+      <div class="cert-level level-intermediate">INTERMEDIATE</div>
+      <h3>CEH — Certified Ethical Hacker</h3>
+      <p>Validate your knowledge of hacking techniques from an attacker's perspective using current tools and methods.</p>
+      <div class="cert-details">
+        <span class="cert-detail">125 multiple-choice questions</span>
+        <span class="cert-detail">4 hours exam time</span>
+        <span class="cert-detail">EC-Council certification</span>
+        <span class="cert-detail">5 domains covered</span>
+      </div>
+      <a href="https://eccouncil.org/train-certify/certified-ethical-hacker-ceh/" class="btn btn-outline" target="_blank" rel="noopener" style="font-size:12px; padding:8px 18px;">Learn More</a>
+    </div>
+    <div class="cert-card">
+      <div class="cert-level level-advanced">ADVANCED</div>
+      <h3>OSCP — Offensive Security</h3>
+      <p>The gold standard in penetration testing certifications. Prove hands-on exploitation skills in a 24-hour exam.</p>
+      <div class="cert-details">
+        <span class="cert-detail">24-hour practical exam</span>
+        <span class="cert-detail">Live hacking environment</span>
+        <span class="cert-detail">Exploit 5 target machines</span>
+        <span class="cert-detail">Industry's most respected cert</span>
+      </div>
+      <a href="https://offensive-security.com/pwk-oscp/" class="btn btn-outline" target="_blank" rel="noopener" style="font-size:12px; padding:8px 18px;">Learn More</a>
+    </div>
+    <div class="cert-card">
+      <div class="cert-level level-beginner">BEGINNER</div>
+      <h3>Google Cybersecurity Certificate</h3>
+      <p>A beginner-friendly path on Coursera covering foundations, tools, and hands-on security skills in under 6 months.</p>
+      <div class="cert-details">
+        <span class="cert-detail">Self-paced online learning</span>
+        <span class="cert-detail">No degree required</span>
+        <span class="cert-detail">Includes Python & Linux</span>
+        <span class="cert-detail">Job-ready portfolio</span>
+      </div>
+      <a href="https://grow.google/certificates/cybersecurity/" class="btn btn-outline" target="_blank" rel="noopener" style="font-size:12px; padding:8px 18px;">Learn More</a>
+    </div>
+    <div class="cert-card">
+      <div class="cert-level level-intermediate">INTERMEDIATE</div>
+      <h3>CISM — Certified Info Security Manager</h3>
+      <p>ISACA's management-focused certification for those moving into security leadership and governance roles.</p>
+      <div class="cert-details">
+        <span class="cert-detail">150 questions, 4 hours</span>
+        <span class="cert-detail">5+ years experience recommended</span>
+        <span class="cert-detail">Governance & risk focus</span>
+        <span class="cert-detail">Globally recognized</span>
+      </div>
+      <a href="https://isaca.org/credentialing/cism" class="btn btn-outline" target="_blank" rel="noopener" style="font-size:12px; padding:8px 18px;">Learn More</a>
+    </div>
+    <div class="cert-card">
+      <div class="cert-level level-advanced">ADVANCED</div>
+      <h3>CISSP — Certified Info Systems Security Pro</h3>
+      <p>The most prestigious cybersecurity certification worldwide. For senior security professionals and architects.</p>
+      <div class="cert-details">
+        <span class="cert-detail">125–175 adaptive questions</span>
+        <span class="cert-detail">3-hour CAT exam</span>
+        <span class="cert-detail">5 years experience required</span>
+        <span class="cert-detail">(ISC)² certification</span>
+      </div>
+      <a href="https://isc2.org/certifications/cissp" class="btn btn-outline" target="_blank" rel="noopener" style="font-size:12px; padding:8px 18px;">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info" style="background: var(--bg2); border-top: 1px solid var(--border);">
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <div class="section-header reveal">
+      <span class="section-tag">// ABOUT THIS PROJECT</span>
+      <h2 class="section-title">Who Made <span>This</span></h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border);" class="reveal">
+
+      <div style="background: var(--bg3); padding: 2.5rem; border-left: 3px solid var(--accent);">
+        <p style="font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .18em; text-transform: uppercase; margin-bottom: 1rem;">// The Project</p>
+        <h3 style="font-family: var(--head); font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1.2rem;">Project Cybersecurity</h3>
+        <p style="color: var(--text2); font-size: 14.5px; line-height: 1.82; margin-bottom: 1rem;">
+          This site was built as a personal project to collect the best cybersecurity learning resources in one place — no ads, no paywalls, no filler. The goal was simple: create something that actually helps people break into the security field without having to spend hours hunting across the internet for where to start.
+        </p>
+        <p style="color: var(--text2); font-size: 14.5px; line-height: 1.82; margin-bottom: 1rem;">
+          Every link, tool, video, and certification on this site was hand-picked based on what's genuinely useful and respected in the industry. Nothing is listed because it paid to be here. If it's on this site, it's because it's actually worth your time.
+        </p>
+        <p style="color: var(--text2); font-size: 14.5px; line-height: 1.82;">
+          The design takes heavy inspiration from real security operations center dashboards and terminal interfaces — because if you're going to learn about hacking, the website might as well look the part.
+        </p>
+      </div>
+
+      <div style="background: var(--bg3); padding: 2.5rem; border-left: 3px solid var(--accent2);">
+        <p style="font-family: var(--mono); font-size: 11px; color: var(--accent2); letter-spacing: .18em; text-transform: uppercase; margin-bottom: 1rem;">// The Creator</p>
+        <h3 style="font-family: var(--head); font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1.2rem;">Generated by AI — Completed by Meris</h3>
+        <p style="color: var(--text2); font-size: 14.5px; line-height: 1.82; margin-bottom: 1rem;">
+          The initial version of this site was generated by <strong style="color: var(--accent2)">Claude</strong> — an AI assistant developed by <strong style="color: #fff;">Anthropic</strong>. Claude produced the base HTML, CSS, and JavaScript structure from a description of what the site should look like and contain.
+        </p>
+        <p style="color: var(--text2); font-size: 14.5px; line-height: 1.82; margin-bottom: 1rem;">
+          From there, <strong style="color: var(--accent)">Meris</strong> took over — reviewing every section, modifying the content, expanding the resource lists, adjusting the design, and completing the final version you see here. The direction, the topic selection, and the finishing work are all Meris's own.
+        </p>
+        <p style="color: var(--text2); font-size: 14.5px; line-height: 1.82;">
+          Using AI as a starting point and then building on top of it is a legitimate and increasingly common approach in tech — what matters is understanding what you've built and being able to own it. Meris can explain every section of this site. That's the point.
+        </p>
+      </div>
+
+    </div>
+
+    <div style="background: var(--bg); border: 1px solid var(--border); margin-top: 2px; padding: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;" class="reveal">
+      <div>
+        <p style="font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: .2em; text-transform: uppercase; margin-bottom: .6rem;">// Built With</p>
+        <p style="color: var(--text2); font-size: 13.5px; line-height: 1.75;">Pure HTML, CSS, and vanilla JavaScript — no frameworks, no build tools, no dependencies. Fast, lightweight, and works anywhere. The fonts are from Google Fonts. Everything else is written by hand.</p>
+      </div>
+      <div>
+        <p style="font-family: var(--mono); font-size: 10px; color: var(--accent2); letter-spacing: .2em; text-transform: uppercase; margin-bottom: .6rem;">// Disclaimer</p>
+        <p style="color: var(--text2); font-size: 13.5px; line-height: 1.75;">Everything on this site is for educational purposes only. Cybersecurity skills are tools — they're only as ethical as the person using them. Only ever practice on systems you own or have explicit written permission to test. Unauthorized access is illegal everywhere.</p>
+      </div>
+      <div>
+        <p style="font-family: var(--mono); font-size: 10px; color: var(--warn); letter-spacing: .2em; text-transform: uppercase; margin-bottom: .6rem;">// Last Updated</p>
+        <p style="color: var(--text2); font-size: 13.5px; line-height: 1.75;">Content was reviewed and updated in 2026. The security landscape moves fast — always cross-reference resources, especially advisories and tool versions. What was current last year may be outdated today.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" style="background: var(--bg); padding: 5rem 2rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">// 05 — INTERACTIVE QUIZ</span>
+    <h2 class="section-title">Test Your <span>Knowledge</span></h2>
+    <div class="section-line"></div>
+    <p style="color: var(--text2); margin-top: 1rem; font-size: 14px;">10 questions — created by Meris to test what you've learned</p>
+  </div>
+
+  <div style="max-width: 760px; margin: 0 auto;" class="reveal">
+
+    <!-- QUIZ CONTAINER -->
+    <div id="quiz-box" style="border: 1px solid var(--border); background: var(--bg2);">
+
+      <!-- PROGRESS BAR -->
+      <div style="height: 3px; background: var(--bg3);">
+        <div id="quiz-progress" style="height: 100%; background: var(--accent); width: 0%; transition: width 0.4s ease;"></div>
+      </div>
+
+      <!-- HEADER -->
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; border-bottom: 1px solid var(--border);">
+        <span id="quiz-counter" style="font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .15em;">QUESTION 1 / 10</span>
+        <span id="quiz-score-live" style="font-family: var(--mono); font-size: 12px; color: var(--text2); letter-spacing: .1em;">SCORE: 0</span>
+      </div>
+
+      <!-- QUESTION -->
+      <div style="padding: 2.5rem 2rem 1.5rem;">
+        <p id="quiz-category" style="font-family: var(--mono); font-size: 10px; color: var(--accent2); letter-spacing: .2em; text-transform: uppercase; margin-bottom: .8rem;"></p>
+        <h3 id="quiz-question" style="font-family: var(--head); font-size: 1.35rem; font-weight: 700; color: #fff; line-height: 1.4; margin-bottom: 2rem;"></h3>
+        <div id="quiz-options" style="display: flex; flex-direction: column; gap: .75rem;"></div>
+      </div>
+
+      <!-- FEEDBACK -->
+      <div id="quiz-feedback" style="display:none; margin: 0 2rem 1.5rem; padding: 1rem 1.2rem; border-left: 3px solid var(--accent);">
+        <p id="quiz-feedback-text" style="font-size: 13.5px; color: var(--text2); line-height: 1.65;"></p>
+      </div>
+
+      <!-- NEXT BTN -->
+      <div style="padding: 0 2rem 2rem; text-align: right;">
+        <button id="quiz-next" onclick="quizNext()" style="display:none; font-family: var(--head); font-weight: 600; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; padding: 11px 28px; border: 1px solid var(--accent); color: var(--bg); background: var(--accent); cursor: pointer; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)); transition: background .2s;">NEXT →</button>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN (hidden initially) -->
+    <div id="quiz-result" style="display:none; border: 1px solid var(--border); background: var(--bg2); padding: 3rem 2rem; text-align: center;">
+      <p style="font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .2em; margin-bottom: 1rem;">// QUIZ COMPLETE</p>
+      <h3 style="font-family: var(--head); font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: .5rem;">Your Score</h3>
+      <div id="quiz-final-score" style="font-family: var(--mono); font-size: 4rem; color: var(--accent); margin: 1.5rem 0; filter: drop-shadow(0 0 20px rgba(0,229,160,.5));"></div>
+      <p id="quiz-final-msg" style="color: var(--text2); font-size: 15px; max-width: 480px; margin: 0 auto 2rem; line-height: 1.7;"></p>
+      <button onclick="quizRestart()" style="font-family: var(--head); font-weight: 600; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; padding: 11px 28px; border: 1px solid var(--accent); color: var(--bg); background: var(--accent); cursor: pointer; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));">TRY AGAIN</button>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const quizData = [
+  {
+    category: "Grundlagen",
+    question: "Was bedeutet die Abkürzung VPN?",
+    options: ["Virtual Private Network", "Verified Public Node", "Virtual Protocol Name", "Vendor Packet Network"],
+    answer: 0,
+    explanation: "VPN steht für Virtual Private Network. Es verschlüsselt deine Internetverbindung und versteckt deine IP-Adresse, damit niemand deinen Datenverkehr mitlesen kann."
+  },
+  {
+    category: "Angriffsmethoden",
+    question: "Was ist Phishing?",
+    options: ["Ein Virus der Dateien verschlüsselt", "Eine Methode um Passwörter per gefälschte E-Mails zu stehlen", "Ein Tool zum Netzwerk scannen", "Ein Angriff der Server überlastet"],
+    answer: 1,
+    explanation: "Phishing ist eine Social Engineering Methode. Angreifer schicken gefälschte E-Mails die aussehen als kämen sie von echten Firmen (z.B. Ihre Bank), um dich dazu zu bringen dein Passwort einzugeben."
+  },
+  {
+    category: "Netzwerk",
+    question: "Welchen Port benutzt HTTPS standardmässig?",
+    options: ["80", "21", "443", "8080"],
+    answer: 2,
+    explanation: "HTTPS läuft auf Port 443. HTTP ohne Verschlüsselung nutzt Port 80. Der Unterschied ist das 'S' — Secure. Immer auf HTTPS achten wenn du sensible Daten eingibst."
+  },
+  {
+    category: "Tools",
+    question: "Welches Tool wird am häufigsten für Netzwerk-Scans benutzt?",
+    options: ["Wireshark", "Metasploit", "Nmap", "Burp Suite"],
+    answer: 2,
+    explanation: "Nmap (Network Mapper) ist das bekannteste Tool um Netzwerke zu scannen. Es zeigt welche Geräte online sind, welche Ports offen sind und welche Dienste laufen."
+  },
+  {
+    category: "Angriffsmethoden",
+    question: "Was ist ein Zero-Day Exploit?",
+    options: ["Ein Angriff der 0 Sekunden dauert", "Eine Sicherheitslücke die dem Hersteller noch nicht bekannt ist", "Ein Virus der sich selbst löscht", "Ein DDoS Angriff mit 0 Tracing"],
+    answer: 1,
+    explanation: "Zero-Day bedeutet: der Hersteller hat 0 Tage Zeit gehabt einen Patch zu entwickeln. Diese Lücken sind extrem wertvoll weil es noch keinen Fix gibt. Sie werden oft für gezielte Angriffe eingesetzt."
+  },
+  {
+    category: "Verschlüsselung",
+    question: "Was macht Hashing (z.B. mit SHA-256)?",
+    options: ["Daten komprimieren", "Daten verschlüsseln und wieder entschlüsseln", "Aus Daten einen einzigartigen Fingerabdruck erstellen der nicht rückgängig gemacht werden kann", "Daten sicher übertragen"],
+    answer: 2,
+    explanation: "Hashing ist eine Einwegfunktion. Passwörter werden als Hash gespeichert — selbst wenn eine Datenbank geleakt wird, sieht man nur den Hash, nicht das echte Passwort."
+  },
+  {
+    category: "Angriffsmethoden",
+    question: "Was ist ein DDoS-Angriff?",
+    options: ["Data Deletion on Demand System", "Distributed Denial of Service — ein Server wird mit Anfragen überflutet bis er abstürzt", "Ein Angriff auf DNS-Server", "Datendiebstahl durch gefälschte Downloads"],
+    answer: 1,
+    explanation: "DDoS = Distributed Denial of Service. Tausende von infizierten Geräten (Botnet) schicken gleichzeitig Anfragen an einen Server bis dieser überlastet ist und für echte Nutzer nicht mehr erreichbar ist."
+  },
+  {
+    category: "Sicherheitsmassnahmen",
+    question: "Was bedeutet 2FA / Zwei-Faktor-Authentifizierung?",
+    options: ["Ein Passwort mit 2 Zeichen", "Login mit 2 verschiedenen Passwörtern", "Ein zweiter Beweis deiner Identität zusätzlich zum Passwort (z.B. SMS-Code)", "Zwei verschiedene Browser benutzen"],
+    answer: 2,
+    explanation: "2FA fügt eine zweite Sicherheitsebene hinzu. Selbst wenn jemand dein Passwort kennt, kommt er nicht rein ohne den zweiten Faktor (z.B. Code auf deinem Handy, Fingerabdruck)."
+  },
+  {
+    category: "Zertifizierungen",
+    question: "Welche Zertifizierung gilt als Einstieg in Cybersecurity und ist DoD-anerkannt?",
+    options: ["OSCP", "CISSP", "CompTIA Security+", "CEH"],
+    answer: 2,
+    explanation: "CompTIA Security+ ist der empfohlene Einstieg. Sie ist herstellerneutral, vom US-Verteidigungsministerium (DoD 8570) anerkannt und weltweit respektiert."
+  },
+  {
+    category: "Angriffsmethoden",
+    question: "Was ist SQL Injection?",
+    options: ["Ein Tool um Passwörter zu knacken", "Das Einschleusen von SQL-Befehlen über unsichere Eingabefelder um eine Datenbank zu manipulieren", "Eine Methode zur Datenverschlüsselung", "Ein Netzwerkscan-Verfahren"],
+    answer: 1,
+    explanation: "SQL Injection ist eine der häufigsten Webangriffe. Wenn eine Webseite Benutzereingaben nicht überprüft, kann ein Angreifer SQL-Befehle einschleusen und z.B. alle Passwörter aus der Datenbank auslesen."
+  }
+];
+
+let current = 0, score = 0, answered = false;
+
+function quizRender() {
+  const q = quizData[current];
+  document.getElementById('quiz-counter').textContent = `QUESTION ${current+1} / ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = `${(current / quizData.length) * 100}%`;
+  document.getElementById('quiz-category').textContent = `// ${q.category}`;
+  document.getElementById('quiz-question').textContent = q.question;
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  answered = false;
+
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = opt;
+    btn.style.cssText = `width:100%; text-align:left; padding: 12px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,160,0.15); color: var(--text); font-family: var(--body); font-size: 14px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.02em;`;
+    btn.onmouseover = () => { if(!answered) btn.style.background = 'rgba(0,229,160,0.08)'; };
+    btn.onmouseout  = () => { if(!answered) btn.style.background = 'rgba(255,255,255,0.03)'; };
+    btn.onclick = () => quizAnswer(i);
+    opts.appendChild(btn);
+  });
+}
+
+function quizAnswer(i) {
+  if (answered) return;
+  answered = true;
+  const q = quizData[current];
+  const btns = document.getElementById('quiz-options').children;
+  const correct = i === q.answer;
+
+  if (correct) score++;
+
+  // Style buttons
+  Array.from(btns).forEach((b, idx) => {
+    b.style.cursor = 'default';
+    if (idx === q.answer) {
+      b.style.background = 'rgba(0,229,160,0.15)';
+      b.style.borderColor = 'var(--accent)';
+      b.style.color = 'var(--accent)';
+    } else if (idx === i && !correct) {
+      b.style.background = 'rgba(255,70,85,0.12)';
+      b.style.borderColor = 'var(--accent3)';
+      b.style.color = 'var(--accent3)';
+    }
+  });
+
+  const fb = document.getElementById('quiz-feedback');
+  const fbText = document.getElementById('quiz-feedback-text');
+  fb.style.display = 'block';
+  fb.style.borderLeftColor = correct ? 'var(--accent)' : 'var(--accent3)';
+  fbText.innerHTML = `<strong style="color:${correct ? 'var(--accent)' : 'var(--accent3)'};">${correct ? '✓ Richtig!' : '✗ Falsch.'}</strong> ${q.explanation}`;
+
+  document.getElementById('quiz-score-live').textContent = `SCORE: ${score}`;
+  document.getElementById('quiz-next').style.display = 'inline-block';
+  document.getElementById('quiz-next').textContent = current < quizData.length - 1 ? 'NEXT →' : 'RESULTS →';
+}
+
+function quizNext() {
+  current++;
+  if (current >= quizData.length) {
+    document.getElementById('quiz-box').style.display = 'none';
+    document.getElementById('quiz-result').style.display = 'block';
+    document.getElementById('quiz-final-score').textContent = `${score} / ${quizData.length}`;
+    const pct = score / quizData.length;
+    let msg;
+    if (pct === 1)        msg = "Perfect Score! Du weisst wirklich Bescheid. Bereit für die OSCP.";
+    else if (pct >= 0.8)  msg = "Sehr gut! Solides Cybersecurity-Wissen. Weiter so.";
+    else if (pct >= 0.6)  msg = "Gut gemacht. Noch ein paar Lücken — aber das kommt mit der Zeit.";
+    else if (pct >= 0.4)  msg = "Nicht schlecht für den Anfang. Schau nochmal durch die Ressourcen.";
+    else                  msg = "Lernpotenzial erkannt! Die Ressourcen auf dieser Seite helfen weiter.";
+    document.getElementById('quiz-final-msg').textContent = msg;
+    document.getElementById('quiz-progress').style.width = '100%';
+  } else {
+    quizRender();
+  }
+}
+
+function quizRestart() {
+  current = 0; score = 0;
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-box').style.display = 'block';
+  quizRender();
+}
+
+quizRender();
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">[CYBERSEC_HUB]</div>
+  <ul class="footer-links">
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#certs">Certifications</a></li>
+    <li><a href="#info">Info</a></li>
+    <li><a href="https://cisa.gov" target="_blank" rel="noopener">CISA</a></li>
+    <li><a href="https://nvd.nist.gov" target="_blank" rel="noopener">NVD</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 MERIS // FOR EDUCATIONAL PURPOSES ONLY // ALL LINKS OPEN IN NEW TAB</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
